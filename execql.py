@@ -2,6 +2,7 @@ from neo4j import GraphDatabase
 
 from config import *
 
+
 class HelloWorldExample:
 
     def __init__(self, uri, user, password):
@@ -12,15 +13,13 @@ class HelloWorldExample:
 
     def print_greeting(self, message: str):
         with self.driver.session() as session:
-            greeting = session.execute_write(self._create_and_return_greeting, message)
+            greeting = session.execute_write(self._create_and_return, message)
             if message.startswith('CREATE') and 'Artwork' in message:
                 print(message[32: -3])
 
     @staticmethod
-    def _create_and_return_greeting(tx, message):
-        result = tx.run(
-            message
-        )
+    def _create_and_return(tx, message):
+        result = tx.run(message)
         return result.single()
 
 
